@@ -24,7 +24,7 @@ class Colors(Enum):
 
 class GameParameters(Enum):
     BLOCK_SIZE = 20
-    SPEED = 10
+    SPEED = 30
     SCREEN_WIDTH = 640
     SCREEN_HEIGHT = 480
 
@@ -52,8 +52,10 @@ class Snake:
         self.head = Point(x, y)
 
     def is_dead(self):
-        if self.head.x > GameParameters.SCREEN_WIDTH.value - GameParameters.BLOCK_SIZE.value \
-                or self.head.y > GameParameters.SCREEN_HEIGHT.value or self.head.y < 0 or self.head.x < 0:
+        block_size = GameParameters.BLOCK_SIZE.value
+
+        if self.head.x > GameParameters.SCREEN_WIDTH.value - block_size \
+                or self.head.y > GameParameters.SCREEN_HEIGHT.value - block_size or self.head.y < 0 or self.head.x < 0:
             return True
 
         if self.head in self.body[1:]:
@@ -64,6 +66,7 @@ class Snake:
 
 class SnakeGame:
     def __init__(self):
+        pygame.display.set_caption('Snake Game')
         self.screen_width = GameParameters.SCREEN_WIDTH.value
         self.screen_height = GameParameters.SCREEN_HEIGHT.value
         self.game_display = pygame.display.set_mode((self.screen_width, self.screen_height))
@@ -107,13 +110,13 @@ class SnakeGame:
                 pygame.quit()
                 quit()
             elif event.type == pygame.KEYDOWN:
-                if event.key == pygame.K_UP:
+                if event.key == pygame.K_UP and self.snake.state != Direction.DOWN:
                     self.snake.state = Direction.UP
-                elif event.key == pygame.K_DOWN:
+                elif event.key == pygame.K_DOWN and self.snake.state != Direction.UP:
                     self.snake.state = Direction.DOWN
-                elif event.key == pygame.K_LEFT:
+                elif event.key == pygame.K_LEFT and self.snake.state != Direction.RIGHT:
                     self.snake.state = Direction.LEFT
-                elif event.key == pygame.K_RIGHT:
+                elif event.key == pygame.K_RIGHT and self.snake.state != Direction.LEFT:
                     self.snake.state = Direction.RIGHT
 
         self.snake.move(self.snake.state)
@@ -137,7 +140,6 @@ class SnakeGame:
 
 if __name__ == '__main__':
     game = SnakeGame()
-    pygame.display.set_caption('Snake Game')
     while True:
         is_game_end, score = game.game_iteration()
         if is_game_end:
