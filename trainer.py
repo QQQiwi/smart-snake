@@ -110,8 +110,8 @@ def train():
 
     load = True
     if load:
-        agent.model.load_state_dict(torch.load('model/model_133.pth'))
-        # agent.model.eval()
+        agent.model.load_state_dict(torch.load('model/model_613.pth'))
+        agent.model.eval()
 
     epoch = 0
     while True:

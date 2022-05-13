@@ -3,6 +3,9 @@ import random
 import pygame
 from collections import namedtuple
 
+
+DEFAULT_SPEED = 30
+
 Point = namedtuple('Point', 'x, y')
 pygame.init()
 
@@ -19,14 +22,14 @@ class Colors(Enum):
     RED = (200, 0, 0)
     BLUE = (0, 0, 255)
     GREEN = (0, 250, 154)
-    BLACK = (0, 0, 0)
+    # BLACK = (0, 0, 0)
+    BLACK = (255, 255, 255)
 
 
 class GameParameters(Enum):
     BLOCK_SIZE = 20
-    SPEED = 30
-    SCREEN_WIDTH = 640
-    SCREEN_HEIGHT = 480
+    SCREEN_WIDTH = 1280
+    SCREEN_HEIGHT = 720
 
 
 class Snake:
@@ -134,7 +137,7 @@ class SnakeGame:
             self.snake.body.pop()
 
         self.update_window()
-        self.game_clock.tick(GameParameters.SPEED.value)
+        self.game_clock.tick(DEFAULT_SPEED)
         return is_game_over, self.snake.length
 
 

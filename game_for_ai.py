@@ -1,4 +1,5 @@
 from game import *
+import game
 import numpy as np
 
 
@@ -61,6 +62,13 @@ class SnakeGameAI(SnakeGame):
             if event.type == pygame.QUIT:
                 pygame.quit()
                 quit()
+            elif event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_1:
+                    game.DEFAULT_SPEED += 10
+                    print("SPEED: ", game.DEFAULT_SPEED)
+                elif event.key == pygame.K_2:
+                    game.DEFAULT_SPEED -= 10
+                    print("SPEED: ", game.DEFAULT_SPEED)
 
         self.snake.move(action)
         self.snake.body.insert(0, self.snake.head)
@@ -80,5 +88,5 @@ class SnakeGameAI(SnakeGame):
             self.snake.body.pop()
 
         self.update_window()
-        self.game_clock.tick(GameParameters.SPEED.value)
+        self.game_clock.tick(game.DEFAULT_SPEED)
         return reward, game_over, self.snake.length
